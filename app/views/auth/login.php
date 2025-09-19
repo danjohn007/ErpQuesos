@@ -23,64 +23,34 @@
     </div>
     
     <div class="d-grid">
-        <button type="submit" class="btn btn-primary" onclick="showLoading(this)">
+        <button type="submit" class="btn btn-primary" id="loginBtn">
             <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
         </button>
     </div>
 </form>
 
-<hr class="my-4">
 
-<div class="text-center">
-    <h6 class="text-muted">Credenciales de Prueba:</h6>
-    <div class="row text-start">
-        <div class="col-12">
-            <small class="text-muted">
-                <strong>Modo Demo (sin BD):</strong><br>
-                Usuario: <code>demo</code><br>
-                Contraseña: <code>demo</code>
-            </small>
-        </div>
-        <div class="col-12 mt-2">
-            <small class="text-muted">
-                <strong>Administrador (con BD):</strong><br>
-                Usuario: <code>admin</code><br>
-                Contraseña: <code>admin123</code>
-            </small>
-        </div>
-        <div class="col-12 mt-2">
-            <small class="text-muted">
-                <strong>Supervisor (con BD):</strong><br>
-                Usuario: <code>supervisor1</code><br>
-                Contraseña: <code>supervisor123</code>
-            </small>
-        </div>
-    </div>
-</div>
 
 <script>
-function showLoading(button) {
-    button.disabled = true;
-    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Iniciando sesión...';
-}
-
-// Auto-fill para testing
 document.addEventListener('DOMContentLoaded', function() {
-    const params = new URLSearchParams(window.location.search);
-    const user = params.get('user');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const originalBtnText = loginBtn.innerHTML;
     
-    if (user === 'demo') {
-        document.getElementById('username').value = 'demo';
-        document.getElementById('password').value = 'demo';
-    } else if (user === 'admin') {
-        document.getElementById('username').value = 'admin';
-        document.getElementById('password').value = 'admin123';
-    } else if (user === 'supervisor') {
-        document.getElementById('username').value = 'supervisor1';
-        document.getElementById('password').value = 'supervisor123';
-    } else if (user === 'operador') {
-        document.getElementById('username').value = 'operador1';
-        document.getElementById('password').value = 'operador123';
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Iniciando sesión...';
+            
+            // Set a timeout to restore button if something goes wrong
+            setTimeout(function() {
+                if (loginBtn.disabled) {
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = originalBtnText;
+                }
+            }, 10000); // 10 seconds timeout
+        });
     }
 });
 </script>
