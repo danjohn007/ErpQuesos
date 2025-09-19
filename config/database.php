@@ -23,9 +23,9 @@ class Database {
             
         } catch (PDOException $e) {
             if (DEBUG_MODE) {
-                die("Error de conexión: " . $e->getMessage());
+                throw new Exception("Error de conexión: " . $e->getMessage());
             } else {
-                die("Error de conexión a la base de datos");
+                throw new Exception("Error de conexión a la base de datos");
             }
         }
     }
@@ -47,6 +47,11 @@ class Database {
     
     public function query($sql) {
         return $this->connection->query($sql);
+    }
+    
+    public function queryOne($sql) {
+        $stmt = $this->connection->query($sql);
+        return $stmt ? $stmt->fetch() : null;
     }
     
     public function lastInsertId() {

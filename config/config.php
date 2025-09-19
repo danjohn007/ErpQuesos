@@ -57,8 +57,14 @@ define('LOG_LEVEL', 'INFO'); // DEBUG, INFO, WARNING, ERROR
 // Configuración regional (México)
 if (!defined('CURRENCY_SYMBOL')) {
     define('CURRENCY_SYMBOL', '$');
+}
+if (!defined('CURRENCY_CODE')) {
     define('CURRENCY_CODE', 'MXN');
+}
+if (!defined('DATE_FORMAT')) {
     define('DATE_FORMAT', 'd/m/Y');
+}
+if (!defined('DATETIME_FORMAT')) {
     define('DATETIME_FORMAT', 'd/m/Y H:i:s');
 }
 
