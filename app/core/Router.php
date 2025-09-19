@@ -35,7 +35,13 @@ class Router {
             $pattern = $route['pattern'];
             
             // Convertir patrón a expresión regular
-            $regex = '#^' . preg_replace('/\\\([^)]+\\\)/', '([^/]+)', preg_quote($pattern, '#')) . '$#';
+            if (strpos($pattern, '(') !== false) {
+                // El patrón ya contiene grupos de captura, usarlo directamente
+                $regex = '#^' . $pattern . '$#';
+            } else {
+                // Patrón simple, aplicar quote
+                $regex = '#^' . preg_quote($pattern, '#') . '$#';
+            }
             
             if (preg_match($regex, $url, $matches)) {
                 // Remover la coincidencia completa
