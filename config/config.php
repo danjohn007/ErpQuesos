@@ -32,9 +32,9 @@ date_default_timezone_set(DEFAULT_TIMEZONE);
 
 // Configuración de base de datos
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'erp_quesos');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'fix360_erp');
+define('DB_USER', 'fix360_erp');
+define('DB_PASS', 'Danjohn007!');
 define('DB_CHARSET', 'utf8mb4');
 
 // Configuración de sesiones
