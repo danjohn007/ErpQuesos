@@ -82,7 +82,7 @@ class DashboardController extends Controller {
                 ['numero_lote' => 'LOT-DEMO-001', 'producto' => 'Queso Manchego', 'fecha_inicio' => date('Y-m-d H:i:s'), 'estado' => 'en_proceso'],
                 ['numero_lote' => 'LOT-DEMO-002', 'producto' => 'Queso Fresco', 'fecha_inicio' => date('Y-m-d H:i:s', strtotime('+1 hour')), 'estado' => 'programado'],
             ];
-            $ventasMes = ['total_ordenes' => 45, 'total_ventas' => 85430.50];
+            $ventasMes = ['total_ordenes' => 12, 'total_ventas' => 18750.00];
         }
         
         $this->view->render('dashboard/index', [
