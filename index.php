@@ -43,6 +43,28 @@ require_once 'app/core/Auth.php';
 // Obtener la URL solicitada
 $url = isset($_GET['url']) ? $_GET['url'] : '';
 
+// Fallback para el servidor de desarrollo de PHP (no procesa .htaccess)
+if (empty($url) && isset($_SERVER['REQUEST_URI'])) {
+    $requestUri = $_SERVER['REQUEST_URI'];
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    
+    // Remover el script name del request URI si está presente
+    if (strpos($requestUri, $scriptName) === 0) {
+        $url = substr($requestUri, strlen($scriptName));
+    } else {
+        // Para servidor de desarrollo, tomar directamente el REQUEST_URI
+        $url = $requestUri;
+    }
+    
+    // Limpiar query string
+    if (($pos = strpos($url, '?')) !== false) {
+        $url = substr($url, 0, $pos);
+    }
+    
+    // Limpiar barras
+    $url = trim($url, '/');
+}
+
 // Inicializar router
 $router = new Router();
 

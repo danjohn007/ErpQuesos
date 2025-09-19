@@ -23,6 +23,9 @@ class Router {
     /**
      * Manejar solicitud
      */
+    /**
+     * Manejar solicitud
+     */
     public function handleRequest($url) {
         // Limpiar URL
         $url = trim($url, '/');
