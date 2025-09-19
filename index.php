@@ -7,8 +7,11 @@
 // Definir constante para permitir acceso
 define('ERP_QUESOS', true);
 
-// Iniciar sesión
-session_start();
+// Configurar nombre de sesión antes de iniciar
+if (session_status() === PHP_SESSION_NONE) {
+    session_name('erp_quesos_session');
+    session_start();
+}
 
 // Incluir archivos de configuración
 require_once 'config/config.php';
@@ -37,9 +40,6 @@ require_once 'app/core/View.php';
 require_once 'app/core/Router.php';
 require_once 'app/core/Auth.php';
 
-// Configurar nombre de sesión
-session_name(SESSION_NAME);
-
 // Obtener la URL solicitada
 $url = isset($_GET['url']) ? $_GET['url'] : '';
 
@@ -47,7 +47,7 @@ $url = isset($_GET['url']) ? $_GET['url'] : '';
 $router = new Router();
 
 // Definir rutas del sistema
-$router->addRoute('', 'Dashboard', 'index');
+$router->addRoute('', 'Auth', 'login');  // Cambiar a login primero
 $router->addRoute('login', 'Auth', 'login');
 $router->addRoute('logout', 'Auth', 'logout');
 $router->addRoute('dashboard', 'Dashboard', 'index');

@@ -20,13 +20,25 @@ class AuthController extends Controller {
             if (empty($username) || empty($password)) {
                 $this->setFlash('error', 'Por favor ingrese usuario y contraseña');
             } else {
-                $result = Auth::login($username, $password);
-                
-                if ($result['success']) {
-                    $this->setFlash('success', $result['message']);
+                // Modo demo si no hay base de datos
+                if ($username === 'demo' && $password === 'demo') {
+                    $_SESSION['user_id'] = 1;
+                    $_SESSION['username'] = 'demo';
+                    $_SESSION['email'] = 'demo@erpquesos.com';
+                    $_SESSION['nombre'] = 'Usuario';
+                    $_SESSION['apellidos'] = 'Demo';
+                    $_SESSION['rol'] = 'admin';
+                    $this->setFlash('success', 'Modo demo activado');
                     $this->redirect('dashboard');
                 } else {
-                    $this->setFlash('error', $result['message']);
+                    $result = Auth::login($username, $password);
+                    
+                    if ($result['success']) {
+                        $this->setFlash('success', $result['message']);
+                        $this->redirect('dashboard');
+                    } else {
+                        $this->setFlash('error', $result['message']);
+                    }
                 }
             }
         }

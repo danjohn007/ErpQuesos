@@ -32,27 +32,27 @@
 <hr class="my-4">
 
 <div class="text-center">
-    <h6 class="text-muted">Usuarios de Prueba:</h6>
+    <h6 class="text-muted">Credenciales de Prueba:</h6>
     <div class="row text-start">
         <div class="col-12">
             <small class="text-muted">
-                <strong>Administrador:</strong><br>
+                <strong>Modo Demo (sin BD):</strong><br>
+                Usuario: <code>demo</code><br>
+                Contraseña: <code>demo</code>
+            </small>
+        </div>
+        <div class="col-12 mt-2">
+            <small class="text-muted">
+                <strong>Administrador (con BD):</strong><br>
                 Usuario: <code>admin</code><br>
                 Contraseña: <code>admin123</code>
             </small>
         </div>
         <div class="col-12 mt-2">
             <small class="text-muted">
-                <strong>Supervisor:</strong><br>
+                <strong>Supervisor (con BD):</strong><br>
                 Usuario: <code>supervisor1</code><br>
                 Contraseña: <code>supervisor123</code>
-            </small>
-        </div>
-        <div class="col-12 mt-2">
-            <small class="text-muted">
-                <strong>Operador:</strong><br>
-                Usuario: <code>operador1</code><br>
-                Contraseña: <code>operador123</code>
             </small>
         </div>
     </div>
@@ -69,7 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
     const user = params.get('user');
     
-    if (user === 'admin') {
+    if (user === 'demo') {
+        document.getElementById('username').value = 'demo';
+        document.getElementById('password').value = 'demo';
+    } else if (user === 'admin') {
         document.getElementById('username').value = 'admin';
         document.getElementById('password').value = 'admin123';
     } else if (user === 'supervisor') {

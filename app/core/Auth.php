@@ -61,37 +61,41 @@ class Auth {
      * Verificar credenciales y realizar login
      */
     public static function login($username, $password) {
-        $db = Database::getInstance();
-        
-        // Buscar usuario
-        $sql = "SELECT * FROM usuarios WHERE (username = ? OR email = ?) AND estado = 'activo'";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$username, $username]);
-        $user = $stmt->fetch();
-        
-        if (!$user) {
-            return ['success' => false, 'message' => 'Usuario no encontrado o inactivo'];
+        try {
+            $db = Database::getInstance();
+            
+            // Buscar usuario
+            $sql = "SELECT * FROM usuarios WHERE (username = ? OR email = ?) AND estado = 'activo'";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$username, $username]);
+            $user = $stmt->fetch();
+            
+            if (!$user) {
+                return ['success' => false, 'message' => 'Usuario no encontrado o inactivo'];
+            }
+            
+            // Verificar contraseña
+            if (!password_verify($password, $user['password'])) {
+                return ['success' => false, 'message' => 'Contraseña incorrecta'];
+            }
+            
+            // Crear sesión
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['nombre'] = $user['nombre'];
+            $_SESSION['apellidos'] = $user['apellidos'];
+            $_SESSION['rol'] = $user['rol'];
+            
+            // Actualizar último acceso
+            $updateSql = "UPDATE usuarios SET ultimo_acceso = NOW() WHERE id = ?";
+            $updateStmt = $db->prepare($updateSql);
+            $updateStmt->execute([$user['id']]);
+            
+            return ['success' => true, 'message' => 'Inicio de sesión exitoso'];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()];
         }
-        
-        // Verificar contraseña
-        if (!password_verify($password, $user['password'])) {
-            return ['success' => false, 'message' => 'Contraseña incorrecta'];
-        }
-        
-        // Crear sesión
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['nombre'] = $user['nombre'];
-        $_SESSION['apellidos'] = $user['apellidos'];
-        $_SESSION['rol'] = $user['rol'];
-        
-        // Actualizar último acceso
-        $updateSql = "UPDATE usuarios SET ultimo_acceso = NOW() WHERE id = ?";
-        $updateStmt = $db->prepare($updateSql);
-        $updateStmt->execute([$user['id']]);
-        
-        return ['success' => true, 'message' => 'Inicio de sesión exitoso'];
     }
     
     /**

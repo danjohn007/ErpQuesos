@@ -55,10 +55,12 @@ define('LOG_PATH', __DIR__ . '/../logs/');
 define('LOG_LEVEL', 'INFO'); // DEBUG, INFO, WARNING, ERROR
 
 // Configuración regional (México)
-define('CURRENCY_SYMBOL', '$');
-define('CURRENCY_CODE', 'MXN');
-define('DATE_FORMAT', 'd/m/Y');
-define('DATETIME_FORMAT', 'd/m/Y H:i:s');
+if (!defined('CURRENCY_SYMBOL')) {
+    define('CURRENCY_SYMBOL', '$');
+    define('CURRENCY_CODE', 'MXN');
+    define('DATE_FORMAT', 'd/m/Y');
+    define('DATETIME_FORMAT', 'd/m/Y H:i:s');
+}
 
 // Rutas de controladores
 define('CONTROLLERS_PATH', __DIR__ . '/../app/controllers/');
