@@ -8,15 +8,13 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 
-# Configuraciones de seguridad
+# Configuraciones de seguridad para archivos
 <Files "*.php">
-    Order Deny,Allow
-    Allow from all
+    Require all granted
 </Files>
 
 <FilesMatch "\.(ini|log|conf)$">
-    Order Allow,Deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # Configurar tipos de archivos y caché
@@ -45,9 +43,11 @@ RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>
 
 # Configuraciones adicionales de seguridad
-Header always set X-Content-Type-Options nosniff
-Header always set X-Frame-Options DENY
-Header always set X-XSS-Protection "1; mode=block"
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
 
-# Deshabilitar firma del servidor
-ServerTokens Prod
+# Deshabilitar firma del servidor (esto debe ir en httpd.conf, no en .htaccess)
+# ServerTokens Prod
