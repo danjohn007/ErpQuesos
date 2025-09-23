@@ -57,9 +57,47 @@ class AjaxController extends Controller {
     }
     
     private function handleProduccion($action) {
-        return [
-            'success' => false,
-            'message' => "Funcionalidad de producción '$action' en desarrollo"
-        ];
+        switch ($action) {
+            case 'nuevo-lote':
+                return [
+                    'success' => true,
+                    'message' => 'Redirigiendo a crear nuevo lote...',
+                    'redirect' => $this->getBaseUrl() . '/produccion/lotes/crear'
+                ];
+                
+            case 'consultar-lotes':
+                return [
+                    'success' => true,
+                    'message' => 'Redirigiendo a consulta de lotes...',
+                    'redirect' => $this->getBaseUrl() . '/produccion/lotes'
+                ];
+                
+            case 'crear-receta':
+                return [
+                    'success' => true,
+                    'message' => 'Redirigiendo a crear nueva receta...',
+                    'redirect' => $this->getBaseUrl() . '/produccion/recetas'
+                ];
+                
+            case 'programar-produccion':
+                return [
+                    'success' => true,
+                    'message' => 'Funcionalidad de programación en desarrollo',
+                    'data' => [
+                        'info' => 'Esta funcionalidad permitirá programar la producción de lotes'
+                    ]
+                ];
+                
+            default:
+                return [
+                    'success' => false,
+                    'message' => "Acción de producción '$action' no implementada"
+                ];
+        }
+    }
+    
+    private function getBaseUrl() {
+        // Obtener la URL base desde la configuración
+        return defined('BASE_URL') ? BASE_URL : '';
     }
 }
